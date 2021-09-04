@@ -18,17 +18,27 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm:entity:create": "ts-node ./node_modules/typeorm/cli.js -f src/db/config/ormconfig.ts entity:create -n",
+    "typeorm:migration:generate": "ts-node ./node_modules/typeorm/cli.js -f src/db/config/ormconfig.ts migration:generate -n",
+    "typeorm:migration:create": "ts-node ./node_modules/typeorm/cli.js -f src/db/config/ormconfig.ts migration:create -n",
+    "typeorm:migration:run": "ts-node ./node_modules/typeorm/cli.js -f src/db/config/ormconfig.ts migration:run",
+    "typeorm:migration:revert": "ts-node ./node_modules/typeorm/cli.js -f src/db/config/ormconfig.ts migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/typeorm": "^8.0.2",
+    "mssql": "^7.2.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "typeorm": "^0.2.37"
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
@@ -41,6 +51,7 @@
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.2",
     "jest": "27.0.6",
     "prettier": "^2.3.2",
     "supertest": "^6.1.3",
