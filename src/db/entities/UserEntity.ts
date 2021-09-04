@@ -1,3 +1,4 @@
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { TodoEntity } from './TodoEntity';
 
