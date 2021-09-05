@@ -2,11 +2,11 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join, resolve } from 'path';
 
 const options: TypeOrmModuleOptions = {
-  type: 'mssql',
-  host: 'localhost',
-  port: 1433,
-  username: 'sa',
-  password: '1234qwerASB',
+  type: process.env.TYPEORM_CONNECTION as any,
+  host: process.env.TYPEORM_HOST,
+  port: parseInt(process.env.TYPEORM_PORT),
+  username: process.env.TYPEORM_USERNAME,
+  password: process.env.TYPEORM_PASSWORD,
   extra: {
     options: {
       encrypt: false,
