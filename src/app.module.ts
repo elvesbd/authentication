@@ -8,7 +8,12 @@ import { AuthModule } from './modules/auth/auth.module';
 import * as options from './db/config/ormconfig';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(options), UsersModule, TodosModule, AuthModule],
+  imports: [
+    TypeOrmModule.forRoot(options),
+    UsersModule,
+    TodosModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

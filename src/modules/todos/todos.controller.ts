@@ -1,4 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { TodoEntity } from 'src/db/entities/TodoEntity';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodosService } from './todos.service';
@@ -7,11 +9,11 @@ import { TodosService } from './todos.service';
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
-  @Get(':id')
-  async getAllTodosByUserId(
-    @Param('id') userId: number,
-  ): Promise<TodoEntity[]> {
-    return await this.todosService.getAllTodosByUserId(userId);
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  async getAllTodosByUserId(@Request() req: any): Promise<TodoEntity[]> {
+    const todos = await this.todosService.getAllTodosByUserId(req.user.id);
+    return todos;
   }
 
   @Post()
