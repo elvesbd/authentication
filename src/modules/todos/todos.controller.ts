@@ -2,6 +2,7 @@ import { Request, UseGuards } from '@nestjs/common';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { TodoEntity } from 'src/db/entities/TodoEntity';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodosService } from './todos.service';
 
@@ -9,7 +10,7 @@ import { TodosService } from './todos.service';
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getAllTodosByUserId(@Request() req: any): Promise<TodoEntity[]> {
     const todos = await this.todosService.getAllTodosByUserId(req.user.id);

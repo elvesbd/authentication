@@ -1,6 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EncryptUtils } from 'src/shared/utils/encrypt.util';
+import { TokensService } from '../tokens/tokens.service';
 import { UserInterface } from '../users/interface/user.interface';
 import { UsersService } from '../users/users.service';
 import { AuthInterface } from './interface/auth.interface';
@@ -10,6 +11,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly tokensService: TokensService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<AuthInterface> {
@@ -30,6 +32,7 @@ export class AuthService {
       sub: userData.id,
     };
     const token = this.jwtService.sign(payload);
+    this.tokensService.saveToken(token, userData.email);
     return {
       name: userData.name,
       access_token: token,

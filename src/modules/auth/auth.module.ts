@@ -7,12 +7,14 @@ import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import { TokensModule } from '../tokens/tokens.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     UsersModule,
     PassportModule,
+    TokensModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
       signOptions: {
@@ -22,5 +24,6 @@ import { ConfigModule } from '@nestjs/config';
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}
