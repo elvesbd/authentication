@@ -12,11 +12,7 @@ export class TodosService {
   ) {}
 
   getAllTodosByUserId(userId: number): Promise<TodoEntity[]> {
-    return this.todosRepository.find({
-      where: {
-        userId,
-      },
-    });
+    return this.todosRepository.find({ userId: userId });
   }
 
   addNewTodo(createTodoDto: CreateTodoDto): Promise<TodoEntity> {

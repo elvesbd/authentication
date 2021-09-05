@@ -4,6 +4,7 @@ import { UserEntity } from 'src/db/entities/UserEntity';
 import { EncryptUtils } from 'src/shared/utils/encrypt.util';
 import { Repository } from 'typeorm';
 import { CreateUserRegisterDto } from './dto/create-register-user.dto';
+import { UserInterface } from './interface/user.interface';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +15,7 @@ export class UsersService {
 
   async registerUser(
     createUserRegisterDto: CreateUserRegisterDto,
-  ): Promise<Partial<UserEntity>> {
+  ): Promise<UserInterface> {
     createUserRegisterDto.password = await EncryptUtils.hashPassword(
       createUserRegisterDto.password,
     );
@@ -22,5 +23,9 @@ export class UsersService {
     const newUser = await this.usersRepository.save(createUserRegisterDto);
     const { password, ...user } = newUser;
     return user;
+  }
+
+  findUserByEmail(email: string): Promise<UserEntity> {
+    return this.usersRepository.findOne({ email: email });
   }
 }
