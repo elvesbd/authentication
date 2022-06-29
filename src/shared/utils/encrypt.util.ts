@@ -4,15 +4,13 @@ const ROUNDS = 10;
 
 export class EncryptUtils {
   static async hashPassword(password: string): Promise<string> {
-    const hashPassword = await bcrypt.hash(password, ROUNDS);
-    return hashPassword;
+    return bcrypt.hash(password, ROUNDS);
   }
 
   static async verifyPassword(
     password: string,
     hashPassword: string,
   ): Promise<boolean> {
-    const result = await bcrypt.compare(password, hashPassword);
-    return result;
+    return bcrypt.compare(password, hashPassword);
   }
 }
