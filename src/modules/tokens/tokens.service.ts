@@ -22,22 +22,22 @@ export class TokensService {
   ) {}
 
   async saveToken(token: string, email: string): Promise<void> {
-    const existingToken = await this.tokensRepository.findOne({ email });
+    const TokenEntity = await this.tokensRepository.findOne({ email });
 
-    if (!existingToken) {
-      this.tokensRepository.insert({ token, email });
+    if (TokenEntity) {
+      this.tokensRepository.update(TokenEntity.id, { token });
     } else {
-      this.tokensRepository.update(existingToken.id, { token });
+      this.tokensRepository.insert({ token, email });
     }
   }
 
   async refreshToken(oldToken: string): Promise<any> {
-    const existingToken = await this.tokensRepository.findOne({
+    const tokenEntity = await this.tokensRepository.findOne({
       token: oldToken,
     });
 
-    if (existingToken) {
-      const user = await this.usersService.findUserByEmail(existingToken.email);
+    if (tokenEntity) {
+      const user = await this.usersService.findUserByEmail(tokenEntity.email);
       return this.authService.login(user);
     }
     throw new HttpException('Invalid Token', HttpStatus.UNAUTHORIZED);
